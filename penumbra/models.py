@@ -27,6 +27,11 @@ class Host(BaseMixin, TimestampMixin, db.Model):
     # IPv4 addresses are a maximum of 15 chars
     ip = db.Column(db.String(length=15), nullable=False)
     data = db.relationship('Datum', backref='host', lazy='dynamic')
+    
+    __table_args__ = (
+        # Each host name/IP combination should be unique
+        db.UniqueConstraint('name', 'ip', name='_host_ip_uc'),
+    )
 
     def __repr__(self):
         return "<Host(name=%s, ip=%s)>" % (self.name, self.ip)
