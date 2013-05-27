@@ -71,11 +71,11 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
     def __repr__(self):
         return "<Datum(key=%s, value=%s, type=%s)>" % (self.key.name, self.value, self.key.type)
 
-    @hybrid_property
+    @property
     def value(self):
         converter = TYPES.get(self.key.type)
         return converter(self._value)
-
+    
     @value.setter
     def value(self, value):
         converter = TYPES.get(self.key.type)
