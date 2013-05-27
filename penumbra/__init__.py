@@ -17,4 +17,6 @@ app.logger.setLevel(CONFIG.LOG_LEVEL)
 app.logger.debug('Initializing database engine')
 db = SQLAlchemy(app)
 
-from penumbra.models import Host, Datum
+# ensure various parts of the app get loaded
+import penumbra.models
+import penumbra.api
