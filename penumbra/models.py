@@ -51,3 +51,8 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
 
     def __repr__(self):
         return "<Datum(key=%s, value=%s, type=%s)>" % (self.key, self.value, self.type)
+
+    @db.validates('value')
+    def validate_type(self, key, value):
+        validator = TYPES.get(self.type)
+        return validator(value)
