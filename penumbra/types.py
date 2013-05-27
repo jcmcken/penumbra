@@ -2,6 +2,7 @@ import datetime
 from formencode.validators import Int, String, StringBool, Number
 from formencode.api import Invalid
 from penumbra.exc import InvalidDataType
+from functools import wraps
 
 def validate_datetime(x):
     if isinstance(x, datetime.datetime):
@@ -14,6 +15,7 @@ def validate_datetime(x):
     return str(result) # datetime objects are not JSON-serializable
 
 def _wrap_formencode(func):
+    @wraps(func)
     def wrapped(x):
         try:
             func(x)
