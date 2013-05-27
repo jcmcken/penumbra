@@ -42,7 +42,7 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
     # IPv4 addresses are a maximum of 15 chars
     value = db.Column(db.String(length=15), nullable=False)
     type = db.Column(db.Enum(*TYPES.keys()), nullable=False)
-    host_id = db.Column(db.Integer, db.ForeignKey(Host.id))
+    host_id = db.Column(db.Integer, db.ForeignKey(Host.id), nullable=False)
 
     __table_args__ = (
         # Each host can only have a single key with a certain name
