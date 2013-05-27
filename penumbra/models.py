@@ -37,5 +37,10 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
     type = db.Column(db.Enum(*TYPES.keys()), nullable=False)
     host_id = db.Column(db.Integer, db.ForeignKey(Host.id))
 
+    __table_args__ = (
+        # Each host can only have a single key with a certain name
+        db.UniqueConstraint('host_id', 'key', name='_host_key_uc'),
+    )
+
     def __repr__(self):
         return "<Datum(key=%s, value=%s, type=%s)>" % (self.key, self.value, self.type)
