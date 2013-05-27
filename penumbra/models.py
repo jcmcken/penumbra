@@ -55,4 +55,5 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
     @db.validates('value')
     def validate_type(self, key, value):
         validator = TYPES.get(self.type)
-        return validator(value)
+        assert validator is not None
+        return str(validator(value))
