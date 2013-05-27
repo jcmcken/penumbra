@@ -18,9 +18,10 @@ def _wrap_formencode(func):
     @wraps(func)
     def wrapped(x):
         try:
-            func(x)
+            result = func(x)
         except Invalid, e:
             raise InvalidDataType(e.args[0])
+        return result
     return wrapped
 
 # Take arbitrary input, validate, and return an object
