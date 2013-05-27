@@ -18,6 +18,8 @@ else:
     LOG_DIR = os.path.join(_rootdir, 'tmp')
     SQLALCHEMY_DATABASE_URI = "sqlite:///%s/tmp/db.sqlite" % _rootdir
     SQLALCHEMY_ECHO = True
+    ADMINISTRATIVE_GROUPS = ['administrators']
+    ADMINISTRATIVE_USERS = ['admin']
     
 LOG_FILE = os.path.join(LOG_DIR, 'penumbra.log')
 
