@@ -1,18 +1,20 @@
-import datetime
 from penumbra import db
 from penumbra.types import TYPES
+import datetime
+
+_now = datetime.datetime.now
 
 class TimestampMixin(object):
     """
     A ``db.Model`` mixin that adds an ``updated_at`` and ``created_at``
     field, which are automatically set to the correct value in most instances.
     """
-    created_at = db.Column(db.DateTime, default=datetime.datetime.now, nullable=False)
+    created_at = db.Column(db.DateTime, default=_now, nullable=False)
     updated_at = db.Column(db.DateTime, 
-        onupdate=datetime.datetime.now, default=datetime.datetime.now, nullable=False)
+        onupdate=_now, default=_now, nullable=False)
 
     def update_timestamp(self):
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = _now()
 
 class BaseMixin(object):
     @property
