@@ -9,6 +9,7 @@ host_blueprint = manager.create_api(Host,
     methods=['GET', 'POST', 'DELETE'],
     preprocessors = {
       'GET_SINGLE': AUTH_MAP['GET_SINGLE'],
+      'GET_MANY': AUTH_MAP['GET_MANY'],
     },
 )
 datum_blueprint = manager.create_api(Datum)

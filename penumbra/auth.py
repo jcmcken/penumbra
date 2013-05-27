@@ -67,6 +67,11 @@ requires_user = AUTH_MECHANISM = _MECHANISMS.get(app.config.get('AUTH_MECHANISM'
 def auth_get_single(instance_id=None, **kw):
     pass 
 
+@requires_user.is_administrator()
+def auth_get_many(search_params=None, **kw):
+    pass 
+
 AUTH_MAP = {
   'GET_SINGLE': [auth_get_single],
+  'GET_MANY': [auth_get_many],
 }
