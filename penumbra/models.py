@@ -1,6 +1,7 @@
 from penumbra import db
 from penumbra.types import TYPES
 import datetime
+from sqlalchemy.ext.hybrid import hybrid_property
 
 _now = datetime.datetime.now
 
@@ -40,7 +41,7 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String(length=255), nullable=False)
     # IPv4 addresses are a maximum of 15 chars
-    value = db.Column(db.String(length=15), nullable=False)
+    _value = db.Column(db.String(length=15), nullable=False)
     type = db.Column(db.Enum(*TYPES.keys()), nullable=False)
     host_id = db.Column(db.Integer, db.ForeignKey(Host.id), nullable=False)
 
@@ -49,11 +50,20 @@ class Datum(BaseMixin, TimestampMixin, db.Model):
         db.UniqueConstraint('host_id', 'key', name='_host_key_uc'),
     )
 
+    def __init__(self, key, value, type):
+        self.key = key
+        self.type = type
+        self.value = value
+
     def __repr__(self):
         return "<Datum(key=%s, value=%s, type=%s)>" % (self.key, self.value, self.type)
 
-    @db.validates('value')
-    def validate_type(self, key, value):
-        validator = TYPES.get(self.type)
-        assert validator is not None
-        return str(validator(value))
+    @hybrid_property
+    def value(self):
+        converter = TYPES.get(self.type)
+        return converter(self._value)
+
+    @value.setter
+    def value(self, value):
+        converter = TYPES.get(self.type)
+        self._value = str(converter(value))
