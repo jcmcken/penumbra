@@ -21,9 +21,9 @@ class BaseMixin(object):
 
 class Host(BaseMixin, TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode(length=255), nullable=False)
+    name = db.Column(db.String(length=255), nullable=False)
     # IPv4 addresses are a maximum of 15 chars
-    ip = db.Column(db.Unicode(length=15), nullable=False)
+    ip = db.Column(db.String(length=15), nullable=False)
     data = db.relationship('Datum', backref='host', lazy='dynamic')
 
     def __repr__(self):
@@ -31,9 +31,9 @@ class Host(BaseMixin, TimestampMixin, db.Model):
 
 class Datum(BaseMixin, TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    key = db.Column(db.Unicode(length=255), nullable=False)
+    key = db.Column(db.String(length=255), nullable=False)
     # IPv4 addresses are a maximum of 15 chars
-    value = db.Column(db.Unicode(length=15), nullable=False)
+    value = db.Column(db.String(length=15), nullable=False)
     type = db.Column(db.Enum(*TYPES.keys()), nullable=False)
     host_id = db.Column(db.Integer, db.ForeignKey(Host.id))
 
