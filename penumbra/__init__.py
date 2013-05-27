@@ -20,3 +20,4 @@ db = SQLAlchemy(app)
 # ensure various parts of the app get loaded
 import penumbra.models
 import penumbra.api
+import penumbra.auth
